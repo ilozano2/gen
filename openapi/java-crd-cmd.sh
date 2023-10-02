@@ -6,6 +6,7 @@ GENERATE_APIS=${GENERATE_APIS:-false}
 OUTPUT_DIR=${OUTPUT_DIR:-java}
 OPENAPI_MODEL_LENGTH=${OPENAPI_MODEL_LENGTH:-}
 HIDE_GENERATION_TIMESTAMP=${HIDE_GENERATION_TIMESTAMP:-false}
+USE_JAKARTA_ANNOTATIONS=${USE_JAKARTA_ANNOTATIONS:true}
 LIBRARY=${LIBRARY:-okhttp-gson}
 OPENAPI_SKIP_BASE_INTERFACE=
 KUBERNETES_CRD_GROUP_PREFIX=
@@ -16,6 +17,7 @@ print_usage() {
   echo " -x: skips implementing kubernetes common interface (this is for backward compatibility w/ client-java lower than 9.0.0)" >& 2
   echo " -n: the prefix of the target CRD's api group to generate." >& 2
   echo " -g: generate crd apis." >& 2
+  echo " -j: include jakarta annotations" >& 2
   echo " -p: the base package name of the generated java project. " >& 2
   echo " -o: output directory of the generated java project. " >& 2
   echo " -l: keep the n last segments for the generated class name. " >& 2
@@ -23,12 +25,13 @@ print_usage() {
   echo " -i: client library" >& 2
 }
 
-while getopts 'c:g:h:i:n:l:p:o:x' flag; do
+while getopts 'c:g:h:i:j:n:l:p:o:x' flag; do
   case "${flag}" in
     c) CLIENT_VERSION="${CLIENT_VERSION}" ;;
     g) GENERATE_APIS="${OPTARG}" ;;
     h) HIDE_GENERATION_TIMESTAMP="${OPTARG}" ;;
     i) LIBRARY="${OPTARG}" ;;
+    j) USE_JAKARTA_ANNOTATIONS="${USE_JAKARTA_ANNOTATIONS}" ;;
     n) KUBERNETES_CRD_GROUP_PREFIX="${OPTARG}" ;;
     l) OPENAPI_MODEL_LENGTH="${OPTARG}" ;;
     p) PACKAGE_NAME="${OPTARG}" ;;
@@ -46,6 +49,7 @@ echo "GENERATE_APIS: $GENERATE_APIS" >& 2
 echo "CLIENT_VERSION: $CLIENT_VERSION" >& 2
 echo "OUTPUT_DIR: $OUTPUT_DIR" >& 2
 echo "HIDE_GENERATION_TIMESTAMP: $HIDE_GENERATION_TIMESTAMP" >& 2
+echo "USE_JAKARTA_ANNOTATIONS: $USE_JAKARTA_ANNOTATIONS" >& 2
 echo "LIBRARY: $LIBRARY" >& 2
 echo "" >& 2 # empty line
 
@@ -76,5 +80,6 @@ OPENAPI_MODEL_LENGTH=${OPENAPI_MODEL_LENGTH} \
 KUBERNETES_CRD_GROUP_PREFIX=${KUBERNETES_CRD_GROUP_PREFIX} \
 OPENAPI_SKIP_BASE_INTERFACE=${OPENAPI_SKIP_BASE_INTERFACE} \
 HIDE_GENERATION_TIMESTAMP=${HIDE_GENERATION_TIMESTAMP} \
+USE_JAKARTA_ANNOTATIONS=${USE_JAKARTA_ANNOTATIONS} \
 LIBRARY=${LIBRARY} \
 $(pwd)/java.sh ${OUTPUT_DIR} /tmp/settings

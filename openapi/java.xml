@@ -102,7 +102,7 @@
                 <hideGenerationTimestamp>${env.HIDE_GENERATION_TIMESTAMP}</hideGenerationTimestamp>
                 <dateLibrary>java8</dateLibrary>
                 <useRxJava>false</useRxJava>
-                <useJakartaEe>true</useJakartaEe>
+                <useJakartaEe>${env.USE_JAKARTA_ANNOTATIONS}</useJakartaEe>
                 <library>${env.LIBRARY}</library>
                 <useReflectionEqualsHashCode>false</useReflectionEqualsHashCode>
               </configOptions>
