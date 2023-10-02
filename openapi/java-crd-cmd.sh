@@ -31,7 +31,7 @@ while getopts 'c:g:h:i:j:n:l:p:o:x' flag; do
     g) GENERATE_APIS="${OPTARG}" ;;
     h) HIDE_GENERATION_TIMESTAMP="${OPTARG}" ;;
     i) LIBRARY="${OPTARG}" ;;
-    j) USE_JAKARTA_ANNOTATIONS="${USE_JAKARTA_ANNOTATIONS}" ;;
+    j) USE_JAKARTA_ANNOTATIONS="${OPTARG}" ;;
     n) KUBERNETES_CRD_GROUP_PREFIX="${OPTARG}" ;;
     l) OPENAPI_MODEL_LENGTH="${OPTARG}" ;;
     p) PACKAGE_NAME="${OPTARG}" ;;
@@ -57,6 +57,8 @@ echo "" >& 2 # empty line
 mkdir -p "${OUTPUT_DIR}"
 
 echo 'rendering settings file to /tmp/settings' >& 2
+echo "Jakarta: $USE_JAKARTA_ANNOTATIONS" >& 2
+
 read -d '' settings << EOF
 export KUBERNETES_BRANCH="${KUBERNETES_BRANCH}"
 
